@@ -1,8 +1,10 @@
-# AI Customer Support Workflow
+# Closira AI Support Agent
 
 ## Overview
 
-This project is a Python-based AI customer support workflow for Bloom Aesthetics Clinic.
+This project is a Python-based AI customer support workflow built for the fictional SMB:
+
+**Bloom Aesthetics Clinic**
 
 The system demonstrates:
 
@@ -11,173 +13,277 @@ The system demonstrates:
 - Escalation Detection
 - Conversation Summarization
 
-## Features
-
-### 1. FAQ Answering
-The AI answers questions only from SOP data.
-Hallucination prevention is enforced.
-
-### 2. Lead Qualification
-The AI asks structured lead qualification questions.
-
-### 3. Escalation Detection
-The system escalates when:
-- User is angry
-- User asks medical questions
-- User requests a human
-- Question is outside SOP
-
-### 4. Conversation Summary
-The workflow generates a structured conversation summary.
+The workflow simulates real-world SMB customer support interactions using an LLM-powered assistant.
 
 ---
 
-## Installation
+# Features
 
-### Step 1
+## 1. FAQ Answering
 
-Clone repository:
+The AI answers customer questions strictly using SOP data.
+
+Hallucination prevention is enforced to ensure the assistant does not generate unsupported information.
+
+---
+
+## 2. Lead Qualification
+
+The assistant asks structured lead qualification questions such as:
+
+- Business type
+- Team size
+- Current tools being used
+
+The responses are collected and summarized.
+
+---
+
+## 3. Escalation Detection
+
+The system escalates conversations when:
+
+- Customer sentiment is negative
+- Customer asks medical questions
+- Customer requests human support
+- Customer asks out-of-scope questions
+- Pricing negotiation is detected
+
+Escalation reasons are logged and included in the final summary.
+
+---
+
+## 4. Conversation Summary
+
+At the end of each session, the workflow generates a structured summary containing:
+
+- Customer intent
+- Lead qualification details
+- Escalation status
+- Recommended next action
+
+---
+
+# Project Structure
+
+```text
+closira-ai-support-agent/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+├── prompt_design.md
+├── .gitignore
+│
+├── data/
+│   └── sop.json
+│
+├── prompts/
+│   └── system_prompt.txt
+│
+├── agents/
+│   ├── faq_agent.py
+│   ├── qualification_agent.py
+│   ├── escalation_agent.py
+│   └── summary_agent.py
+│
+├── utils/
+│   └── logger.py
+│
+└── test_transcripts/
+    ├── faq_test.md
+    ├── escalation_test.md
+    ├── out_of_scope_test.md
+    ├── qualification_test.md
+    └── summary_test.md
+```
+
+---
+
+# Installation
+
+## 1. Clone Repository
 
 ```bash
-git clone <your_repo_link>
+git clone https://github.com/Mohit-1307/closira-ai-support-agent
+```
 
+---
 
-### Step 2
+## 2. Create Virtual Environment
 
-Install dependencies:
-    pip install -r requirements.txt
+### Windows
 
+```bash
+python -m venv venv
+```
 
-### Step 3
+Activate virtual environment:
 
-Create .env file:
-    OPENAI_API_KEY=your_key_here
+```bash
+venv\Scripts\activate
+```
 
+---
 
-### Step 4
+## 3. Install Dependencies
 
-Run application:
-    python app.py
+```bash
+pip install -r requirements.txt
+```
 
+---
 
-## Example Questions
+## 4. Configure Environment Variables
 
--> What are your Botox prices?
--> How can I book?
--> Do you provide laser surgery?
--> I am unhappy with your service.
+Create a `.env` file in the project root directory:
 
+```env
+GROQ_API_KEY=your_api_key_here
+```
 
-## Known Limitations
+---
 
--> Uses keyword-based escalation
--> No frontend UI
--> No persistent database
--> CLI-based interaction only
+## 5. Run the Application
 
+```bash
+python app.py
+```
 
-## Tech Stack
+---
 
--> Python
--> OpenAI API
--> GPT-4o-mini
+# Example Questions
 
+## In-Scope Questions
 
-# 13. prompt_design.md
+- What are your Botox prices?
+- How can I book an appointment?
+- What are your clinic hours?
 
-## Prompt Design Documentation
+## Out-of-Scope Questions
 
-### System Prompt
+- Do you provide laser surgery?
+- Can I negotiate the price?
+- Is Botox safe during pregnancy?
 
-The system prompt instructs the AI to:
+---
 
--> Answer ONLY using SOP information
--> Avoid hallucinations
--> Escalate when uncertain
--> Maintain professional SMB customer support tone
+# Example Workflow
 
-### Main prompt:
+```text
+Customer Question
+        ↓
+FAQ Answering
+        ↓
+Escalation Detection
+        ↓
+Lead Qualification
+        ↓
+Conversation Summary
+```
 
-```txt
--> You are an AI assistant for Bloom Aesthetics Clinic.
--> You MUST answer ONLY using the SOP below.
--> Do NOT make up information.
--> If information is missing, escalate to a human representative.
-
+---
 
 # Hallucination Prevention
 
-## Hallucination prevention was implemented through:
+The system prevents hallucinations through:
 
--> Explicit prompt instruction
--> SOP grounding
--> Temperature set to 0
--> Escalation fallback for unknown questions
+- SOP-grounded responses
+- Explicit system prompt constraints
+- Temperature set to 0
+- Escalation fallback for unsupported questions
 
-The AI is forbidden from generating unsupported information.
+The assistant never invents business information outside the SOP.
 
+---
 
-# Confidence-Based Escalation
+# Technologies Used
 
-## Escalation is triggered when:
+- Python
+- Groq API
+- Llama 3.3 70B Versatile
+- OpenAI Python SDK
+- python-dotenv
 
--> AI cannot find information in SOP
--> Customer sentiment is negative
--> Medical questions appear
--> Customer requests human support
--> Pricing negotiation occurs
+---
 
-Keyword-based escalation logic is used.
+# Known Limitations
 
+- Uses keyword-based escalation logic
+- CLI-based interaction only
+- No persistent database
+- No frontend UI
+- Limited sentiment analysis
 
-# Tone and Persona
+---
 
-## The assistant uses:
+# Future Improvements
 
--> Friendly tone
--> Professional customer support communication
--> Short and clear responses
--> Safe fallback behavior
+Possible future improvements include:
 
-The tone is designed for SMB customer interactions.
+- Advanced sentiment analysis
+- Vector database retrieval
+- Web-based frontend
+- Persistent conversation storage
+- Better lead scoring
 
+---
 
-# 14. Test Transcripts
+# Test Scenarios Implemented
 
-## faq_test.md
+The project includes test transcripts for:
 
-```md
+- FAQ answering
+- Out-of-scope escalation
+- Complaint escalation
+- Lead qualification
+- Conversation summary generation
 
+---
 
-# FAQ Test
+# Sample Interaction
 
+```text
 Customer: What are your Botox prices?
 
-AI: Botox services start from £200.
+AI: Our Botox prices start from £200.
 
+Customer: How can I book an appointment?
 
-# out_of_scope_test.md
+AI: You can book an appointment via WhatsApp or our website.
 
-## Out of Scope Test
+--- Lead Qualification ---
 
-Customer: Do you offer laser treatment?
+What type of business are you in?
+Healthcare
 
-AI: I could not find that information in our policy documents. I will escalate this to a human representative.
+How large is your team?
+20
 
-[ESCALATION TRIGGERED]
-Reason: Out-of-scope question
+What tools are you currently using?
+WhatsApp
 
+==============================
+Conversation Summary
+==============================
 
-# escalation_test.md
+Customer Intent:
+What are your Botox prices?
 
-## Escalation Test
+Lead Details:
+- Business Type: Healthcare
+- Team Size: 20
+- Current Tools: WhatsApp
 
-Customer: I am very angry about your service.
+Escalation Status:
+No escalation
 
-AI: I understand your frustration. I will escalate this issue to a human representative.
+Recommended Next Action:
+Continue customer onboarding process.
+```
 
-[ESCALATION TRIGGERED]
-Reason: Customer frustration or complaint
+---
 
+# Author
 
-# qualification_test.md
+Mohit
