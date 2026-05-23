@@ -340,16 +340,6 @@ Customer: WhatsApp
 
 ---
 
-# ⚠️ Known Limitations
-
-- Rule-based escalation detection
-- CLI-based interaction only
-- Limited sentiment analysis
-- No persistent memory/database
-- Small SOP knowledge base
-
----
-
 # 🎯 Assignment Requirements Covered
 
 | Requirement | Status |
