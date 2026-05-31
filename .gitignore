@@ -3,3 +3,4 @@ venv/
 __pycache__/
 conversation_log.txt
 conversation_summary.txt
+.vscode/
